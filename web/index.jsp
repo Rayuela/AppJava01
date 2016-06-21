@@ -58,17 +58,23 @@
                 <div class="form-group">
                     <label for="responsable">Seleccionar Responsable</label>
                     <select name="responsable" id="responsables" class="form-control">
-                        
+                      
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <select name="fecha" id="fecha" class="form-control">
+                      
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="servicio">Asignar Tarea</label>
                     <textarea class="form-control" rows="5"></textarea>
                 </div>
+                
               
                 <button type="submit" class="btn btn-danger">Guardar Tarea</button>
             </form>
-
 
 
         </div><!-- /.container -->
@@ -100,6 +106,16 @@
                 });
                    
                 });
+                $("#unidades").change(function(){
+                    $("#responsables").empty();
+                    var unidad_id=$("#unidades").val();
+                    alert(""+unidad_id);
+                     $.get("http://localhost:8080/AppJava01/Tarea?unidad_id="+unidad_id, function (data, status) {
+                    $.each(data, function (i, item) {
+                        $('#responsables').append('<option value=' + item.responsable_id+ '>' + item.nombre +'</option>');
+                    });
+                });
+            });
             });
 
         </script>   

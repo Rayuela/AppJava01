@@ -16,7 +16,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import negocio.Responsable;
 import negocio.Servicio;
+import negocio.Unidad;
 
 /**
  *
@@ -30,16 +32,36 @@ public class Tarea extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             Coneccion con = new Coneccion();
             if (request.getParameter("servicio_id") != null) {
-                String servicio_id=request.getParameter("servicio_id");
-                con.setConsulta("select * from Unidades where servicio_id='"+servicio_id+"'");
+                String servicio_id = request.getParameter("servicio_id");
+                con.setConsulta("select * from Unidades where servicio_id='" + servicio_id + "'");
                 ArrayList lista = new ArrayList();
                 try {
                     while (con.getResultado().next()) {
-                        Servicio serv = new Servicio();
-                        serv.setServicio_id(con.getResultado().getInt("servicio_id"));
-                        serv.setNombre(con.getResultado().getString("nombre"));
-                        serv.setEstado(con.getResultado().getString("estado"));
-                        lista.add(serv);
+                        Unidad uni = new Unidad();
+                        uni.setUnidad_id(con.getResultado().getInt("unidad_id"));
+                        uni.setNombre(con.getResultado().getString("nombre"));
+                        uni.setEstado(con.getResultado().getString("estado"));
+                        uni.setServicio_id(con.getResultado().getInt("servicio_id"));
+                        lista.add(uni);
+                    }
+                } catch (SQLException ex) {
+                }
+                String json = new Gson().toJson(lista);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
+            } else if (request.getParameter("unidad_id") != null) {
+                String unidad_id = request.getParameter("unidad_id");
+                con.setConsulta("select * from Responsables where unidad_id='" + unidad_id + "'");
+                ArrayList lista = new ArrayList();
+                try {
+                    while (con.getResultado().next()) {
+                        Responsable res = new Responsable();
+                        res.setResponsable_id(con.getResultado().getInt("reponsable_id"));
+                        res.setNombre(con.getResultado().getString("nombre"));
+                        res.setEstado(con.getResultado().getString("estado"));
+                        res.setUnidad_id(con.getResultado().getInt("unidad_id"));
+                        lista.add(res);
                     }
                 } catch (SQLException ex) {
                 }
