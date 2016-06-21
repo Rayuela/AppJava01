@@ -46,33 +46,33 @@
                 <div class="form-group">
                     <label for="servicio">Seleccionar Servicio</label>
                     <select name="servicio" id="servicios" class="form-control">
-                        
+
                     </select> 
                 </div>
                 <div class="form-group">
                     <label for="servicio">Seleccionar Unidad</label>
                     <select name="unidad" id="unidades" class="form-control">
-                        
+
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="responsable">Seleccionar Responsable</label>
                     <select name="responsable" id="responsables" class="form-control">
-                      
+
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="fecha">Fecha</label>
-                    <select name="fecha" id="fecha" class="form-control">
-                      
+                    <input type="date" name="fecha">
+
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="servicio">Asignar Tarea</label>
                     <textarea class="form-control" rows="5"></textarea>
                 </div>
-                
-              
+
+
                 <button type="submit" class="btn btn-danger">Guardar Tarea</button>
             </form>
 
@@ -93,29 +93,34 @@
                     });
 
                 });
-                
-                $("#servicios").change(function(){
-                   $("#unidades").empty(); 
-                   var servicio_id=$("#servicios").val();
-                   alert(""+servicio_id);
-                    $.get("http://localhost:8080/AppJava01/Tarea?servicio_id="+servicio_id, function (data, status) {
-                    $.each(data, function (i, item) {
-                        $('#unidades').append('<option value=' + item.unidad_id + '>' + item.nombre + '</option>');
+
+                $("#servicios").change(function () {
+                    $("#unidades").empty();
+                    var servicio_id = $("#servicios").val();
+                    alert("" + servicio_id);
+                    $.get("http://localhost:8080/AppJava01/Tarea?servicio_id=" + servicio_id, function (data, status) {
+                        $.each(data, function (i, item) {
+                            $('#unidades').append('<option value=' + item.unidad_id + '>' + item.nombre + '</option>');
+                        });
+
                     });
 
                 });
-                   
-                });
-                $("#unidades").change(function(){
+                $("#unidades").change(function () {
                     $("#responsables").empty();
-                    var unidad_id=$("#unidades").val();
-                    alert(""+unidad_id);
-                     $.get("http://localhost:8080/AppJava01/Tarea?unidad_id="+unidad_id, function (data, status) {
-                    $.each(data, function (i, item) {
-                        $('#responsables').append('<option value=' + item.responsable_id+ '>' + item.nombre +'</option>');
+                    var unidad_id = $("#unidades").val();
+                    alert("" + unidad_id);
+                    $.get("http://localhost:8080/AppJava01/Tarea?unidad_id=" + unidad_id, function (data, status) {
+                        $.each(data, function (i, item) {
+                            $('#responsables').append('<option value=' + item.responsable_id + '>' + item.nombre + '</option>');
+                        });
                     });
                 });
-            });
+                $("#responsables").change(function(){
+                    alert("ID RESPONSABLE"+$("#responsables").val());
+                });
+                
+                
             });
 
         </script>   
